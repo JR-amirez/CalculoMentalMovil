@@ -19,25 +19,25 @@ import exercisesAdvanced from '../../public/exercises/exercises_advanced.json';
 import GaugeComponent from 'react-gauge-component';
 
 const Play: React.FC = () => {
-    const { data } = useParams<{ data: any }>();
-    const [gameData, setGameData] = useState<any>(null);
-    const [exercises, setExercises] = useState<any[]>([]);
-    const [currentExerciseIndex, setCurrentExerciseIndex] = useState<number>(0);
-    const [currentExercise, setCurrentExercise] = useState<any>(null);
-    const [operationParts, setOperationParts] = useState<string[]>([]);
-    const [currentPartIndex, setCurrentPartIndex] = useState<number>(0);
-    const [displayText, setDisplayText] = useState<string>('');
-    const [isAnimating, setIsAnimating] = useState<boolean>(false);
-    const [showOptions, setShowOptions] = useState<boolean>(false);
-    const [score, setScore] = useState<number>(0);
-    const [maxScore, setMaxScore] = useState<number>(0);
-    const [activeButtonIndex, setActiveButtonIndex] = useState<number | null>(null);
-    const [activeButtonStyle, setActiveButtonStyle] = useState<string>('');
-    const [isComplete, setisComplete] = useState<boolean>(true);
-    const [countdown, setCountdown] = useState<number>(3);
-    const [showCountdown, setShowCountdown] = useState<boolean>(true);
-    const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
-    const [showFeedback, setShowFeedback] = useState<boolean>(false);
+    const { data } = useParams < { data: any } > ();
+    const [gameData, setGameData] = useState < any > (null);
+    const [exercises, setExercises] = useState < any[] > ([]);
+    const [currentExerciseIndex, setCurrentExerciseIndex] = useState < number > (0);
+    const [currentExercise, setCurrentExercise] = useState < any > (null);
+    const [operationParts, setOperationParts] = useState < string[] > ([]);
+    const [currentPartIndex, setCurrentPartIndex] = useState < number > (0);
+    const [displayText, setDisplayText] = useState < string > ('');
+    const [isAnimating, setIsAnimating] = useState < boolean > (false);
+    const [showOptions, setShowOptions] = useState < boolean > (false);
+    const [score, setScore] = useState < number > (0);
+    const [maxScore, setMaxScore] = useState < number > (0);
+    const [activeButtonIndex, setActiveButtonIndex] = useState < number | null > (null);
+    const [activeButtonStyle, setActiveButtonStyle] = useState < string > ('');
+    const [isComplete, setisComplete] = useState < boolean > (true);
+    const [countdown, setCountdown] = useState < number > (3);
+    const [showCountdown, setShowCountdown] = useState < boolean > (true);
+    const [feedbackMessage, setFeedbackMessage] = useState < string | null > (null);
+    const [showFeedback, setShowFeedback] = useState < boolean > (false);
 
     const correctMessages = [
         "¡Excelente! 🎯",
@@ -75,10 +75,12 @@ const Play: React.FC = () => {
                 selectedExercises = exercisesBasic;
         }
 
-        const limitedExercises = selectedExercises.slice(0, gameInfo.numExercises);
+        const limitedExercises = selectedExercises
+            .slice(0, gameInfo.numExercises)
+            .map(ex => ({ ...ex, options: shuffleArray(ex.options)}));
+
         setExercises(limitedExercises);
 
-        console.log('Ejercicios seleccionados:', limitedExercises);
     }, [data]);
 
     useEffect(() => {
@@ -101,18 +103,15 @@ const Play: React.FC = () => {
 
         if (exercises.length > 0 && currentExerciseIndex < exercises.length) {
             const exercise = exercises[currentExerciseIndex];
+
             setCurrentExercise(exercise);
 
-            // Separar la operación por comas
             const parts = exercise.operation.split(',');
             setOperationParts(parts);
             setCurrentPartIndex(0);
             setDisplayText('');
             setShowOptions(false);
             setIsAnimating(true);
-
-            console.log('Ejercicio actual:', exercise);
-            console.log('Partes de la operación:', parts);
         }
 
         if (exercises.length > 0) {
@@ -182,6 +181,15 @@ const Play: React.FC = () => {
                 }
             }, 1500);
         }, 900);
+    };
+
+    const shuffleArray = <T,>(array: T[]): T[] => {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
     };
 
     return (
