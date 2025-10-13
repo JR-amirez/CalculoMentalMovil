@@ -1,0 +1,47 @@
+[
+    {
+        "nivel": "avanzado",
+        "operation": "8,×2,+5,-3,÷2,+4,×3,-2,+6,÷2,+7,-5,×2,+1,-4",
+        "options": [
+            { "text": "44", "isCorrect": true },
+            { "text": "42", "isCorrect": false },
+            { "text": "46", "isCorrect": false }
+        ]
+    },
+    {
+        "nivel": "avanzado",
+        "operation": "12,×3,-6,÷2,+8,×2,-4,+7,÷2,+5,-3,×2,+6,-2,+4",
+        "options": [
+            { "text": "61", "isCorrect": true },
+            { "text": "59", "isCorrect": false },
+            { "text": "63", "isCorrect": false }
+        ]
+    },
+    {
+        "nivel": "avanzado",
+        "operation": "10,×2,+6,-4,÷2,+8,×3,-5,+7,÷2,+9,-6,×2,+3,-7",
+        "options": [
+            { "text": "61", "isCorrect": true },
+            { "text": "59", "isCorrect": false },
+            { "text": "63", "isCorrect": false }
+        ]
+    },
+    {
+        "nivel": "avanzado",
+        "operation": "15,×2,-5,÷5,+10,×3,-6,+8,÷2,+7,-4,×2,+5,-3,+6",
+        "options": [
+            { "text": "61", "isCorrect": true },
+            { "text": "59", "isCorrect": false },
+            { "text": "63", "isCorrect": false }
+        ]
+    },
+    {
+        "nivel": "avanzado",
+        "operation": "20,×2,+8,-6,÷2,+9,×3,-7,+5,÷2,+6,-2,×2,+4,-8",
+        "options": [
+            { "text": "92", "isCorrect": true },
+            { "text": "90", "isCorrect": false },
+            { "text": "94", "isCorrect": false }
+        ]
+    }
+]
