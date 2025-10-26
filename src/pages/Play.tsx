@@ -15,13 +15,19 @@ import { useEffect, useState } from "react";
 import exercisesBasic from '../../public/exercises/exercises_basic.json';
 import exercisesIntermediate from '../../public/exercises/exercises_intermediate.json';
 import exercisesAdvanced from '../../public/exercises/exercises_advanced.json';
-
 import GaugeComponent from 'react-gauge-component';
 
-const Play: React.FC = () => {
-    const { data } = useParams < { data: any } > ();
-    const [gameData, setGameData] = useState < any > (null);
+type Difficulty = 'basic' | 'intermediate' | 'advanced';
+type NumExercises = 1 | 2 | 3 | 4 | 5;
+
+export interface PlayProps {
+    difficulty: Difficulty;
+    numExercises: NumExercises;
+}
+
+const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
     const [exercises, setExercises] = useState < any[] > ([]);
+    const [speed, setSpeed] = useState < number > (1000);
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState < number > (0);
     const [currentExercise, setCurrentExercise] = useState < any > (null);
     const [operationParts, setOperationParts] = useState < string[] > ([]);
@@ -56,38 +62,39 @@ const Play: React.FC = () => {
     ];
 
     useEffect(() => {
-        const gameInfo = JSON.parse(decodeURIComponent(data));
-        setGameData(gameInfo);
-
         let selectedExercises;
 
-        switch (gameInfo.difficulty) {
-            case 0:
+        switch (difficulty) {
+            case 'basic':
                 selectedExercises = exercisesBasic;
+                setSpeed(1000);
                 break;
-            case 1:
+            case 'intermediate':
                 selectedExercises = exercisesIntermediate;
+                setSpeed(800);
                 break;
-            case 2:
+            case 'advanced':
                 selectedExercises = exercisesAdvanced;
+                setSpeed(600);
                 break;
             default:
                 selectedExercises = exercisesBasic;
+                setSpeed(1000);
         }
 
         const limitedExercises = selectedExercises
-            .slice(0, gameInfo.numExercises)
-            .map(ex => ({ ...ex, options: shuffleArray(ex.options)}));
+            .slice(0, numExercises)
+            .map(ex => ({ ...ex, options: shuffleArray(ex.options) }));
 
         setExercises(limitedExercises);
 
-    }, [data]);
+    }, [difficulty, numExercises]);
 
     useEffect(() => {
         if (showCountdown && countdown > 0) {
             const timer = setTimeout(() => {
                 setCountdown(prev => prev - 1);
-            }, 1000); // Cambia cada segundo
+            }, 1000);
 
             return () => clearTimeout(timer);
         } else if (showCountdown && countdown === 0) {
@@ -122,13 +129,13 @@ const Play: React.FC = () => {
     useEffect(() => {
         if (showCountdown) return;
 
-        if (!isAnimating || !gameData || operationParts.length === 0) return;
+        if (!isAnimating || operationParts.length === 0) return;
 
         if (currentPartIndex < operationParts.length) {
             const timer = setTimeout(() => {
                 setDisplayText(operationParts[currentPartIndex]);
                 setCurrentPartIndex(prev => prev + 1);
-            }, gameData.speed);
+            }, speed);
 
             return () => { clearTimeout(timer) };
         } else {
@@ -138,7 +145,7 @@ const Play: React.FC = () => {
                 setShowOptions(true);
             }, 500);
         }
-    }, [isAnimating, currentPartIndex, operationParts, gameData, showCountdown]);
+    }, [isAnimating, currentPartIndex, operationParts, showCountdown]);
 
     const handleAnswerSelect = (option: any, index: number) => {
         console.log('Respuesta seleccionada:', option);

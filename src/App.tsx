@@ -43,11 +43,11 @@ const App: React.FC = () => (
         <Route exact path="/home">
           <Home />
         </Route>
-        <Route exact path="/play/:data">
-          <Play />
+        <Route exact path="/play">
+          <Play difficulty={'basic'} numExercises={5} />
         </Route>
         <Route exact path="/">
-          <Redirect to="/home" />
+          <Redirect to="/play" />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
