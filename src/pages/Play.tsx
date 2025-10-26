@@ -300,7 +300,6 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
             <IonContent fullscreen className="ion-padding">
                 <div className="header-game ion-no-border">
                     <div className="toolbar-game">
-                        <span><strong>Autor:</strong> Jonathan R. | <strong>Version:</strong> 1.0</span>
                         <div className="titles">
                             <h1>STEAM-G</h1>
                             <IonIcon icon={alertCircleOutline} size="small" id="info-icon" />
@@ -320,6 +319,7 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
                                 </IonCard>
                             </IonPopover>
                         </div>
+                        <span><strong>Autor:</strong> Jonathan R. | <strong>Version:</strong> 1.0</span>
                     </div>
                 </div>
 
