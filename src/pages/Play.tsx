@@ -1,21 +1,23 @@
 import {
     IonButton,
+    IonCard,
     IonContent,
     IonHeader,
+    IonIcon,
     IonNote,
     IonPage,
+    IonPopover,
     IonText,
     IonTitle,
     IonToolbar,
 } from "@ionic/react";
 import "./Play.css";
-import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-
 import exercisesBasic from '../../public/exercises/exercises_basic.json';
 import exercisesIntermediate from '../../public/exercises/exercises_intermediate.json';
 import exercisesAdvanced from '../../public/exercises/exercises_advanced.json';
 import GaugeComponent from 'react-gauge-component';
+import { alertCircleOutline, closeCircleOutline } from 'ionicons/icons';
 
 type Difficulty = 'basic' | 'intermediate' | 'advanced';
 type NumExercises = 1 | 2 | 3 | 4 | 5;
@@ -45,6 +47,8 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
     const [feedbackMessage, setFeedbackMessage] = useState < string | null > (null);
     const [showFeedback, setShowFeedback] = useState < boolean > (false);
     const [showSummary, setShowSummary] = useState < boolean > (false);
+    const [showInstructions, setShowInstructions] = useState < boolean > (false);
+    const [reroll, setReroll] = useState < number > (0);
 
     const POINTS_PER_CORRECT = 10;
 
@@ -64,6 +68,20 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
         "Intenta de nuevo 👊"
     ];
 
+    const shuffleArray = <T,>(array: T[]): T[] => {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    };
+
+    const sampleArray = <T,>(array: T[], max = 5): T[] => {
+        const shuffled = shuffleArray(array);
+        return shuffled.slice(0, Math.min(max, shuffled.length));
+    };
+
     const resetGame = () => {
         setCurrentExerciseIndex(0);
         setCurrentExercise(null);
@@ -81,36 +99,42 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
         setShowCountdown(true);
 
         setShowSummary(false);
+
+        // NUEVO: fuerza un nuevo muestreo aleatorio
+        setReroll(prev => prev + 1);
     };
 
     useEffect(() => {
-        let selectedExercises;
+        let selectedExercises: any[] = [];
 
         switch (difficulty) {
             case 'basic':
-                selectedExercises = exercisesBasic;
+                selectedExercises = exercisesBasic as any[];
                 setSpeed(1000);
                 break;
             case 'intermediate':
-                selectedExercises = exercisesIntermediate;
+                selectedExercises = exercisesIntermediate as any[];
                 setSpeed(800);
                 break;
             case 'advanced':
-                selectedExercises = exercisesAdvanced;
+                selectedExercises = exercisesAdvanced as any[];
                 setSpeed(600);
                 break;
             default:
-                selectedExercises = exercisesBasic;
+                selectedExercises = exercisesBasic as any[];
                 setSpeed(1000);
         }
 
-        const limitedExercises = selectedExercises
-            .slice(0, numExercises)
-            .map(ex => ({ ...ex, options: shuffleArray(ex.options) }));
+        // NUEVO: tomar al azar, máximo numExercises (tope 5 por el tipo)
+        const limitedExercises = sampleArray(selectedExercises, numExercises).map(ex => ({
+            ...ex,
+            options: shuffleArray(ex.options) // barajar opciones
+        }));
 
         setExercises(limitedExercises);
 
-    }, [difficulty, numExercises]);
+        // NUEVO: añadimos 'reroll' para re-samplear al reiniciar
+    }, [difficulty, numExercises, reroll]);
 
     useEffect(() => {
         if (showCountdown && countdown > 0) {
@@ -120,10 +144,9 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
 
             return () => clearTimeout(timer);
         } else if (showCountdown && countdown === 0) {
-            // Cuando llega a 0, ocultamos el conteo y comenzamos el juego
             setTimeout(() => {
                 setShowCountdown(false);
-            }, 500); // Pequeña pausa antes de comenzar
+            }, 500);
         }
     }, [countdown, showCountdown]);
 
@@ -132,7 +155,6 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
 
         if (exercises.length > 0 && currentExerciseIndex < exercises.length) {
             const exercise = exercises[currentExerciseIndex];
-
             setCurrentExercise(exercise);
 
             const parts = exercise.operation.split(',');
@@ -170,8 +192,6 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
     }, [isAnimating, currentPartIndex, operationParts, showCountdown]);
 
     const handleAnswerSelect = (option: any, index: number) => {
-        console.log('Respuesta seleccionada:', option);
-
         setActiveButtonIndex(index);
         const style = option.isCorrect ? 'ion-button-pop' : 'ion-button-shake';
         setActiveButtonStyle(style);
@@ -211,15 +231,6 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
                 }
             }, 1500);
         }, 900);
-    };
-
-    const shuffleArray = <T,>(array: T[]): T[] => {
-        const shuffled = [...array];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        return shuffled;
     };
 
     return (
@@ -271,16 +282,56 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
                 </div>
             )}
 
+            {showInstructions && (
+                <div className="summary-overlay" onClick={() => setShowSummary(false)}>
+                    <div className="summary-card" onClick={(e) => e.stopPropagation()}>
+                        <div className="summary-title">
+                            <h2 style={{margin: 0}}>Instrucciones</h2>
+                            <IonIcon icon={closeCircleOutline} style={{fontSize: '26px'}} onClick={() => setShowInstructions(false)} />
+                        </div>
 
-            <IonHeader translucent={true} className="ion-no-border">
-                <IonToolbar>
-                    <IonTitle>Cálculo Mental</IonTitle>
-                </IonToolbar>
-            </IonHeader>
+                        <div className="summary-stats">
+                            <p style={{textAlign: 'justify'}}><strong>Resuelve mentalmente la operación que aparece en pantalla y elige la respuesta correcta entre las opciones</strong></p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <IonContent fullscreen className="ion-padding">
-                <IonNote>
-                    Ejercicio {currentExerciseIndex + 1} de {exercises.length}
-                </IonNote>
+                <div className="header-game ion-no-border">
+                    <div className="toolbar-game">
+                        <span><strong>Autor:</strong> Jonathan R. | <strong>Version:</strong> 1.0</span>
+                        <div className="titles">
+                            <h1>STEAM-G</h1>
+                            <IonIcon icon={alertCircleOutline} size="small" id="info-icon" />
+                            <IonPopover trigger="info-icon" side="bottom" alignment="center">
+                                <IonCard className="filter-card ion-no-margin">
+                                    <div className="section header-section">
+                                        <h2>Calculo Mental</h2>
+                                    </div>
+
+                                    <div className="section description-section">
+                                        <p>Descripción</p>
+                                    </div>
+
+                                    <div className="section footer-section">
+                                        <span>26 de Octubre del 2025</span>
+                                    </div>
+                                </IonCard>
+                            </IonPopover>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="instructions-exercises">
+                    <IonNote className="instructions" onClick={() => setShowInstructions(true)}>
+                        Instrucciones
+                    </IonNote>
+                    <IonNote>
+                        Ejercicio {currentExerciseIndex + 1} de {exercises.length}
+                    </IonNote>
+                </div>
+
 
                 <div className="screen-operations">
                     <IonText className={displayText === "¡Listo! Puedes responder." ? "msg-text" : "option-text"}>
@@ -318,18 +369,9 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
                             arc={{
                                 emptyColor: "#ebebebff",
                                 subArcs: [
-                                    {
-                                        length: 33,
-                                        color: "#EA4228"
-                                    },
-                                    {
-                                        length: 33,
-                                        color: "#F5CD19"
-                                    },
-                                    {
-                                        length: 34,
-                                        color: "#5BE12C"
-                                    }
+                                    { length: 33, color: "#EA4228" },
+                                    { length: 33, color: "#F5CD19" },
+                                    { length: 34, color: "#5BE12C" }
                                 ]
                             }}
                             labels={{
@@ -341,13 +383,10 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
                                         textShadow: 'none'
                                     }
                                 },
-                                tickLabels: {
-                                    hideMinMax: true
-                                }
+                                tickLabels: { hideMinMax: true }
                             }}
                         />
                     </div>
-
                 </div>
 
                 <div className="button">
