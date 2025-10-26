@@ -44,6 +44,9 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
     const [showCountdown, setShowCountdown] = useState < boolean > (true);
     const [feedbackMessage, setFeedbackMessage] = useState < string | null > (null);
     const [showFeedback, setShowFeedback] = useState < boolean > (false);
+    const [showSummary, setShowSummary] = useState < boolean > (false);
+
+    const POINTS_PER_CORRECT = 10;
 
     const correctMessages = [
         "¡Excelente! 🎯",
@@ -60,6 +63,25 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
         "No te rindas 🔁",
         "Intenta de nuevo 👊"
     ];
+
+    const resetGame = () => {
+        setCurrentExerciseIndex(0);
+        setCurrentExercise(null);
+        setOperationParts([]);
+        setCurrentPartIndex(0);
+        setDisplayText('');
+        setIsAnimating(false);
+        setShowOptions(false);
+        setActiveButtonIndex(null);
+        setActiveButtonStyle('');
+        setScore(0);
+        setisComplete(true);
+
+        setCountdown(3);
+        setShowCountdown(true);
+
+        setShowSummary(false);
+    };
 
     useEffect(() => {
         let selectedExercises;
@@ -122,7 +144,7 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
         }
 
         if (exercises.length > 0) {
-            setMaxScore(exercises.length * 10);
+            setMaxScore(exercises.length * POINTS_PER_CORRECT);
         }
     }, [exercises, currentExerciseIndex, showCountdown]);
 
@@ -155,7 +177,7 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
         setActiveButtonStyle(style);
 
         if (option.isCorrect) {
-            setScore(prev => prev + 10);
+            setScore(prev => prev + POINTS_PER_CORRECT);
         }
 
         setTimeout(() => {
@@ -183,7 +205,8 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
                             setShowFeedback(false);
                             setFeedbackMessage(null);
                             setisComplete(false);
-                        }, 2000);
+                            setShowSummary(true);
+                        }, 1200);
                     }, 600);
                 }
             }, 1500);
@@ -212,6 +235,39 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
             {showFeedback && (
                 <div className="feedback-overlay">
                     <div className="feedback-text">{feedbackMessage}</div>
+                </div>
+            )}
+
+            {showSummary && (
+                <div className="summary-overlay">
+                    <div className="summary-card">
+                        {(() => {
+                            const total = exercises.length || 0;
+                            const correctas = POINTS_PER_CORRECT > 0
+                                ? Math.round(score / POINTS_PER_CORRECT)
+                                : 0;
+
+                            const logroMayoría = correctas >= Math.ceil(total / 2);
+                            const titulo = logroMayoría ? "¡Felicidades! 🎉" : "¡Buen intento! 💪";
+
+                            return (
+                                <>
+                                    <h2 className="summary-title">{titulo}</h2>
+
+                                    <div className="summary-stats">
+                                        <p><strong>Ejercicios correctos:</strong> {correctas} de {total}</p>
+                                        <p><strong>Puntuación final:</strong> {score} / {maxScore}</p>
+                                    </div>
+
+                                    <div className="summary-actions">
+                                        <IonButton shape="round" expand="block" onClick={resetGame}>
+                                            Reiniciar
+                                        </IonButton>
+                                    </div>
+                                </>
+                            );
+                        })()}
+                    </div>
                 </div>
             )}
 
