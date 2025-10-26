@@ -122,7 +122,7 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
         }
 
         if (exercises.length > 0) {
-            setMaxScore(exercises.length);
+            setMaxScore(exercises.length * 10);
         }
     }, [exercises, currentExerciseIndex, showCountdown]);
 
@@ -155,7 +155,7 @@ const Play: React.FC<PlayProps> = ({ difficulty, numExercises }) => {
         setActiveButtonStyle(style);
 
         if (option.isCorrect) {
-            setScore(prev => prev + 1);
+            setScore(prev => prev + 10);
         }
 
         setTimeout(() => {
