@@ -78,6 +78,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 3%;
 }
 
 .instructions-exercises .instructions {
@@ -93,9 +94,9 @@
     border-radius: 20px;
     padding: 20px 30px;
     min-width: 100%;
-    min-height: 140px;
+    min-height: 18%;
     max-width: 100%;
-    max-height: 140px;
+    max-height: 18%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -124,13 +125,12 @@
     justify-content: space-around;
     align-items: center;
     padding: 20px 0;
-    height: 150px;
+    height: 17%;
 }
 
 .options-container ion-button {
     width: 100px;
     height: 100px;
-    font-size: xx-large;
     --background: transparent;
     color: #1a4dbd;
     border: 1px solid rgba(26, 77, 189, 0.829);
@@ -141,9 +141,20 @@
     padding: 0;
 }
 
+.score {
+    height: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .score-gauge {
     margin-top: 20px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .score-gauge ion-text {
@@ -217,6 +228,43 @@
     animation: feedbackPop 0.6s ease;
 }
 
+.ins-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+    padding: 20px;
+}
+
+.ins-card {
+    background: #fff;
+    border-radius: 18px;
+    width: min(520px, 92vw);
+    padding: 24px 22px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+
+.ins-title {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 21%;
+    color: #1a4dbd;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.ins-stats {
+    margin: 10px 0 18px 0;
+    font-size: 18px;
+    color: #222;
+}
+
 .summary-overlay {
     position: fixed;
     inset: 0;
@@ -240,12 +288,9 @@
 
 .summary-title {
     display: flex;
-    justify-content: end;
+    justify-content: center;
     align-items: center;
-    gap: 17%;
-}
-
-.summary-title > * {
+    gap: 21%;
     color: #1a4dbd;
     font-size: 28px;
     font-weight: bold;
@@ -264,6 +309,12 @@
     --background: #1a4dbd;
 }
 
+.logout-icon {
+    position: absolute;
+    top: 5%;
+    left: 90%;
+    transform: translate(-5%, 90%);
+}
 
 @keyframes pulse {
     0% { transform: scale(1); }
@@ -328,4 +379,27 @@
     0% { transform: scale(0.6); opacity: 0; }
     60% { transform: scale(1.1); opacity: 1; }
     100% { transform: scale(1); }
+}
+
+.inicio-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+}
+
+.info-juego {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    align-items: center;
+    padding: 0;
+    margin-top: 40px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
 }
