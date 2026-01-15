@@ -9,6 +9,7 @@ import {
     IonText,
     IonAlert,
     IonChip,
+    IonBadge,
 } from "@ionic/react";
 import "./Play.css";
 import { useEffect, useState } from "react";
@@ -18,7 +19,12 @@ import exercisesAdvanced from "../data/exercises_advanced.json";
 import {
     alertCircleOutline,
     closeCircleOutline,
+    exitOutline,
+    homeOutline,
+    informationCircleOutline,
+    pauseCircleOutline,
     playCircleOutline,
+    refresh
 } from "ionicons/icons";
 import { App } from "@capacitor/app";
 
@@ -170,12 +176,22 @@ type CalculoRuntimeConfig = {
     version?: string;
     fecha?: string;
     descripcion?: string;
+    nombreApp?: string;
+    plataformas?: string[];
 };
 
 export interface PlayProps {
     difficulty?: Difficulty;
     numExercises?: NumExercises;
 }
+
+type ConfettiPiece = {
+    id: number;
+    left: number;
+    delay: number;
+    duration: number;
+    color: string;
+};
 
 const Play: React.FC<PlayProps> = ({
     difficulty = "basic",
@@ -206,18 +222,22 @@ const Play: React.FC<PlayProps> = ({
     const [showFeedback, setShowFeedback] = useState<boolean>(false);
     const [showSummary, setShowSummary] = useState<boolean>(false);
     const [showInstructions, setShowInstructions] = useState<boolean>(false);
+    const [showInformation, setShowInformation] = useState<boolean>(false);
     const [reroll, setReroll] = useState<number>(0);
     const [isPaused, setIsPaused] = useState<boolean>(false);
     const [showExitModal, setShowExitModal] = useState<boolean>(false);
     const [showStartScreen, setShowStartScreen] = useState<boolean>(true);
-    const [countdown, setCountdown] = useState<number>(3);
+    const [countdown, setCountdown] = useState<number>(5);
     const [showCountdown, setShowCountdown] = useState<boolean>(false);
-    const [appAutor, setAppAutor] = useState<string>("Jonathan R.");
+    const [appNombreJuego, setAppNombreJuego] = useState<string>("STEAM-G");
+    const [appAutor, setAppAutor] = useState<string>("Valeria C. Z.");
     const [appVersion, setAppVersion] = useState<string>("1.0");
     const [appFecha, setAppFecha] = useState<string>("2 de Diciembre del 2025");
+    const [appPlataformas, setAppPlataformas] = useState<string>("android");
     const [appDescripcion, setAppDescripcion] = useState<string>(
         "Juego para el desarrollo de habilidades matemáticas"
     );
+    const [pausado, setPausado] = useState<boolean>(false);
 
     const getDifficultyLabel = (nivel: Difficulty): string => {
         const labels: Record<Difficulty, string> = {
@@ -226,6 +246,18 @@ const Play: React.FC<PlayProps> = ({
             advanced: 'Avanzado',
         };
         return labels[nivel] ?? nivel;
+    };
+
+    const formatPlataforma = (texto: string): string => {
+        const mapa: Record<string, string> = {
+            'android': 'Android',
+            'ios': 'iOS',
+            'web': 'Web',
+        };
+        return texto
+            .split(/,\s*/)
+            .map(p => mapa[p.toLowerCase()] ?? p.charAt(0).toUpperCase() + p.slice(1))
+            .join(', ');
     };
 
     const POINTS_PER_CORRECT = 10;
@@ -303,6 +335,8 @@ const Play: React.FC<PlayProps> = ({
             if (data.version) setAppVersion(data.version);
             if (data.fecha) setAppFecha(formatearFechaLarga(data.fecha));
             if (data.descripcion) setAppDescripcion(data.descripcion);
+            if (data.plataformas) setAppPlataformas(data.plataformas.join(", "));
+            if (data.nombreApp) setAppNombreJuego(data.nombreApp);
 
             if (typeof data.ejercicios === "number") {
                 const ejerciciosNormalizados = Math.min(
@@ -348,7 +382,7 @@ const Play: React.FC<PlayProps> = ({
         setScore(0);
         setisComplete(true);
 
-        setCountdown(3);
+        setCountdown(5);
         setShowCountdown(true);
 
         setShowSummary(false);
@@ -368,11 +402,11 @@ const Play: React.FC<PlayProps> = ({
             break;
         case "intermediate":
             selectedExercises = exercisesIntermediate as any[];
-            setSpeed(800);
+            setSpeed(850);
             break;
         case "advanced":
             selectedExercises = exercisesAdvanced as any[];
-            setSpeed(600);
+            setSpeed(700);
             break;
         default:
             selectedExercises = exercisesBasic as any[];
@@ -412,7 +446,7 @@ const Play: React.FC<PlayProps> = ({
             const exercise = exercises[currentExerciseIndex];
             setCurrentExercise(exercise);
 
-            const parts = exercise.operation.split(",");
+            const parts = exercise.operation.split(",").map((p: string) => p.trim());
             setOperationParts(parts);
             setCurrentPartIndex(0);
             setDisplayText("");
@@ -498,25 +532,18 @@ const Play: React.FC<PlayProps> = ({
         }, 900);
     };
 
-    const openExitModal = () => {
-        setIsPaused(true);
-        setIsAnimating(false);
-        setShowExitModal(true);
-    };
-
     const handleResume = () => {
         setShowExitModal(false);
-        setCountdown(3);
-        setShowCountdown(true);
         setIsPaused(false);
         setIsAnimating(true);
+        setPausado(false);
     };
 
     const handleExitApp = async () => {
         try {
-        await App.exitApp();
+            await App.exitApp();
         } catch (e) {
-        window.close();
+            window.close();
         }
     };
 
@@ -538,14 +565,51 @@ const Play: React.FC<PlayProps> = ({
         setShowStartScreen(true);
     };
 
+    const handleInformation = () => {
+        setShowInformation(!showInformation);
+    }
+
+    const generarConfeti = (cantidad = 60): ConfettiPiece[] => {
+        const colores = ["#ff6b6b", "#feca57", "#48dbfb", "#1dd1a1", "#5f27cd"];
+
+        return Array.from({ length: cantidad }, (_, id) => ({
+            id,
+            left: Math.random() * 100,
+            delay: Math.random() * 1.5,
+            duration: 2.5 + Math.random() * 2.5,
+            color: colores[Math.floor(Math.random() * colores.length)],
+        }));
+    };
+
+    const handlePausar = () => {
+        if (
+            showStartScreen ||
+            showCountdown ||
+            showSummary ||
+            showInstructions ||
+            showFeedback ||
+            pausado
+        )
+        return;
+
+        setIsAnimating(false);
+        setPausado(true);
+        setIsPaused(true);
+    };
+
+    const handleSalirDesdePausa = () => {
+        setPausado(false);
+        setIsPaused(false);
+        handleExitToStart();
+    };
 
     return (
         <IonPage>
-            {showCountdown && (
+            {showCountdown && countdown > 0 && (
                 <div className="countdown-overlay">
-                <div className="countdown-number">
-                    {countdown > 0 ? countdown : "¡Ahora!"}
-                </div>
+                    <div className="countdown-number">
+                        {countdown}
+                    </div>
                 </div>
             )}
 
@@ -557,42 +621,76 @@ const Play: React.FC<PlayProps> = ({
 
             {showSummary && (
                 <div className="summary-overlay">
-                <div className="summary-card">
-                    {(() => {
-                    const total = exercises.length || 0;
-                    const correctas =
-                        POINTS_PER_CORRECT > 0
-                        ? Math.round(score / POINTS_PER_CORRECT)
-                        : 0;
+                    <div className="summary-message">
+                        {(() => {
+                            const total = exercises.length || 0;
 
-                    const logroMayoría = correctas >= Math.ceil(total / 2);
-                    const titulo = logroMayoría
-                        ? "¡Felicidades! 🎉"
-                        : "¡Buen intento! 💪";
+                            const correctas =
+                            POINTS_PER_CORRECT > 0 ? Math.round(score / POINTS_PER_CORRECT) : 0;
 
-                    return (
-                        <>
-                        <h2 className="summary-title">{titulo}</h2>
+                            const incorrectas = Math.max(total - correctas, 0);
+                            const porcentaje = total > 0 ? Math.round((correctas / total) * 100) : 0;
 
-                        <div className="summary-stats">
-                            <p>
-                            <strong>Ejercicios correctos:</strong> {correctas} de{" "}
-                            {total}
-                            </p>
-                            <p>
-                            <strong>Puntuación final:</strong> {score} / {maxScore}
-                            </p>
-                        </div>
+                            const etiqueta =
+                            correctas === total
+                                ? "¡PERFECTO! 🏆"
+                                : porcentaje >= 70
+                                ? "¡Excelente! 🔥"
+                                : porcentaje >= 50
+                                ? "¡Buen trabajo! 👍"
+                                : "¡Sigue practicando! 💪";
 
-                        <div className="summary-actions">
-                            <IonButton shape="round" expand="block" onClick={resetGame}>
-                            Reiniciar
-                            </IonButton>
-                        </div>
-                        </>
-                    );
-                    })()}
-                </div>
+                            return (
+                                <>
+                                    <h2>Juego Terminado</h2>
+
+                                    <div className="resumen-final">
+                                    <h3>Resultados Finales</h3>
+
+                                    <p>
+                                        <strong>Ejercicios completados:</strong> {total}
+                                    </p>
+                                    <p>
+                                        <strong>Correctos:</strong> {correctas}
+                                    </p>
+                                    <p>
+                                        <strong>Incorrectos:</strong> {incorrectas}
+                                    </p>
+                                    <p>
+                                        <strong>Puntuación total:</strong> {score} / {maxScore}
+                                    </p>
+
+                                    <IonBadge className="badge">{etiqueta}</IonBadge>
+                                    </div>
+
+                                    <IonButton id="finalize" expand="block" onClick={handleSalirDesdePausa}>
+                                        <IonIcon icon={refresh} slot="start" />
+                                        Jugar de Nuevo
+                                    </IonButton>
+
+                                    <IonButton id="exit" expand="block" onClick={handleExitApp}>
+                                        <IonIcon slot="start" icon={exitOutline}></IonIcon>
+                                        Cerrar aplicación
+                                    </IonButton>
+                                </>
+                            );
+                        })()}
+                    </div>
+
+                    <div className="confetti-container">
+                    {generarConfeti().map((c) => (
+                        <div
+                        key={c.id}
+                        className="confetti"
+                        style={{
+                            left: `${c.left}%`,
+                            animationDelay: `${c.delay}s`,
+                            animationDuration: `${c.duration}s`,
+                            backgroundColor: c.color,
+                        }}
+                        />
+                    ))}
+                    </div>
                 </div>
             )}
 
@@ -600,10 +698,10 @@ const Play: React.FC<PlayProps> = ({
                 <div className="ins-overlay" onClick={() => setShowInstructions(false)}>
                 <div className="ins-card" onClick={(e) => e.stopPropagation()}>
                     <div className="ins-title">
-                    <h2 style={{ margin: 0, fontWeight: "bold" }}>Instrucciones</h2>
+                    <h2 style={{ margin: 0, fontWeight: "bold", color: "var(--dark)" }}>Reglas Básicas</h2>
                     <IonIcon
                         icon={closeCircleOutline}
-                        style={{ fontSize: "26px" }}
+                        style={{ fontSize: "26px", color: "var(--dark)" }}
                         onClick={() => setShowInstructions(false)}
                     />
                     </div>
@@ -620,29 +718,120 @@ const Play: React.FC<PlayProps> = ({
                 </div>
             )}
 
-            <IonAlert
-                isOpen={showExitModal}
-                header="¿Estás seguro de salir?"
-                buttons={[
-                    {
-                        text: "Reanudar",
-                        role: "cancel",
-                        handler: handleResume,
-                    },
-                    {
-                        text: "Salir",
-                        role: "confirm",
-                        handler: handleExitToStart,
-                    },
-                ]}
-                onDidDismiss={() => {
-                    if (isPaused) handleResume();
-                }}
-            ></IonAlert>
+            {showInformation && (
+                <div className="info-modal-background">
+                    <div className="info-modal">
+                        <div className="header">
+                            <h2 style={{color: 'var(--color-primary)', fontWeight: 'bold'}}>{appNombreJuego}</h2>
+                            <p style={{color: '#8b8b8bff', marginTop: '5px', textAlign: 'center'}}>Actividad configurada desde la plataforma Steam-G</p>
+                        </div>
+                        <div className="cards-info">
+                            <div className="card">
+                                <p className="title">VERSIÓN</p>
+                                <p className="data">{appVersion}</p>
+                            </div>
+                            <div className="card">
+                                <p className="title">FECHA DE CREACIÓN</p>
+                                <p className="data">{appFecha}</p>
+                            </div>
+                            <div className="card">
+                                <p className="title">PLATAFORMAS</p>
+                                <p className="data">{formatPlataforma(appPlataformas)}</p>
+                            </div>
+                            <div className="card">
+                                <p className="title">NÚMERO DE EJERCICIOS</p>
+                                <p className="data">{numExercisesConfig}</p>
+                            </div>
+                            <div className="card description">
+                                <p className="title">DESCRIPCIÓN</p>
+                                <p className="data">{appDescripcion}</p>
+                            </div>
+                        </div>
+                        <div className="button">
+                            <IonButton expand="full" onClick={handleInformation}>Cerrar</IonButton>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {pausado && (
+                <div className="pause-overlay">
+                    <div className="pause-card">
+                        <h2>Juego en pausa</h2>
+                        <p>El tiempo está detenido.</p>
+
+                        <IonButton
+                            expand="block"
+                            id="resume"
+                            style={{ marginTop: "16px" }}
+                            onClick={handleResume}
+                        >
+                            <IonIcon slot="start" icon={playCircleOutline}></IonIcon>
+                            Reanudar
+                        </IonButton>
+
+                        <IonButton
+                            expand="block"
+                            id="finalize"
+                            style={{ marginTop: "10px" }}
+                            onClick={handleSalirDesdePausa}
+                        >
+                            <IonIcon slot="start" icon={homeOutline}></IonIcon>
+                            Finalizar juego
+                        </IonButton>
+
+                        <IonButton
+                            expand="block"
+                            id="exit"
+                            style={{ marginTop: "10px" }}
+                            onClick={handleExitApp}
+                        >
+                            <IonIcon slot="start" icon={exitOutline}></IonIcon>
+                            Cerrar aplicación
+                        </IonButton>
+                    </div>
+                </div>
+            )}
 
             <IonContent fullscreen className="ion-padding">
                 {showStartScreen ? (
                     <div className="inicio-container">
+                        <div className="header-game ion-no-border">
+                            <div className="toolbar-game">
+                                <div className="titles start-page">
+                                    <h1>{appNombreJuego}</h1>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="info-juego">
+                            <div className="info-item">
+                                <IonChip>
+                                    <strong>Nivel: {getDifficultyLabel(difficultyConfig)}</strong>
+                                </IonChip>
+                            </div>
+                        </div>
+
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                            }}
+                            className="page-start-btns"
+                        >
+                            <IonButton onClick={handleStartGame} className="play">
+                                <IonIcon slot="start" icon={playCircleOutline}></IonIcon>
+                                Iniciar juego
+                            </IonButton>
+                            <IonButton onClick={handleInformation} className="info">
+                                <IonIcon slot="start" icon={informationCircleOutline}></IonIcon>
+                                Información
+                            </IonButton>
+                        </div>
+                    </div>
+                ) : (
+                    <>
                         <div className="header-game ion-no-border">
                             <div className="toolbar-game">
                                 <div className="titles">
@@ -650,108 +839,48 @@ const Play: React.FC<PlayProps> = ({
                                     <IonIcon icon={alertCircleOutline} size="small" id="info-icon" />
                                     <IonPopover trigger="info-icon" side="bottom" alignment="center">
                                         <IonCard className="filter-card ion-no-margin">
-                                            <div className="section header-section">
-                                                <h2>Cálculo mental</h2>
-                                            </div>
+                                        <div className="section header-section">
+                                            <h2>{appNombreJuego}</h2>
+                                        </div>
 
-                                            <div className="section description-section">
-                                                <p>{appDescripcion}</p>
-                                            </div>
+                                        <div className="section description-section">
+                                            <p>{appDescripcion}</p>
+                                        </div>
 
-                                            <div className="section footer-section">
-                                                <span>{appFecha}</span>
-                                            </div>
+                                        <div className="section footer-section">
+                                            <span>{appFecha}</span>
+                                        </div>
                                         </IonCard>
                                     </IonPopover>
                                 </div>
-                                <span><strong>Autor:</strong> {appAutor} | <strong>Versión:</strong> {appVersion}</span>
+                                <span>
+                                    <strong>{appNombreJuego}</strong>
+                                </span>
                             </div>
-                        </div>
-
-                        <div className="info-juego">
-                            <div className="info-item">
-                                <IonChip color="secondary">
-                                    <strong>{getDifficultyLabel(difficultyConfig)}</strong>
-                                </IonChip>
-                            </div>
-                            <div className="info-item">
-                                <IonChip color="warning">
-                                    <strong>{numExercisesConfig} ejercicios</strong>
-                                </IonChip>
-                            </div>
-                        </div>
-
-                        <div
-                            style={{
-                                marginTop: "20px",
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "10px",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <IonButton color="primary" onClick={handleStartGame}>
-                                <IonIcon slot="start" icon={playCircleOutline}></IonIcon>
-                                Iniciar juego
-                            </IonButton>
-                            <IonButton color="medium" onClick={handleExitApp}>
-                                <IonIcon slot="start" icon={closeCircleOutline}></IonIcon>
-                                Cerrar aplicación
-                            </IonButton>
-                        </div>
-                    </div>
-                ) : (
-                    <>
-                        <div className="header-game ion-no-border">
-                        <div className="toolbar-game">
-                            <div className="titles">
-                            <h1>STEAM-G</h1>
-                            <IonIcon icon={alertCircleOutline} size="small" id="info-icon" />
-                            <IonPopover trigger="info-icon" side="bottom" alignment="center">
-                                <IonCard className="filter-card ion-no-margin">
-                                <div className="section header-section">
-                                    <h2>Cálculo Mental</h2>
-                                </div>
-
-                                <div className="section description-section">
-                                    <p>{appDescripcion}</p>
-                                </div>
-
-                                <div className="section footer-section">
-                                    <span>{appFecha}</span>
-                                </div>
-                                </IonCard>
-                            </IonPopover>
-                            </div>
-                            <span>
-                            <strong>Autor:</strong> {appAutor} | <strong>Version:</strong>{" "}
-                            {appVersion}
-                            </span>
-                        </div>
                         </div>
 
                         <div className="instructions-exercises">
-                        <IonNote
-                            className="instructions"
-                            onClick={() => setShowInstructions(true)}
-                        >
-                            Instrucciones
-                        </IonNote>
-                        <IonNote>
-                            Ejercicio {currentExerciseIndex + 1} de {exercises.length}
-                        </IonNote>
+                            <IonNote
+                                className="instructions"
+                                onClick={() => setShowInstructions(true)}
+                            >
+                                Reglas Básicas
+                            </IonNote>
+                            <IonNote>
+                                Ejercicio {currentExerciseIndex + 1} de {exercises.length}
+                            </IonNote>
                         </div>
 
                         <div className="screen-operations">
-                        <IonText
-                            className={
-                            displayText === "¡Listo! Puedes responder."
-                                ? "msg-text"
-                                : "option-text"
-                            }
-                        >
-                            {displayText}
-                        </IonText>
+                            <IonText
+                                className={
+                                displayText === "¡Listo! Puedes responder."
+                                    ? "msg-text"
+                                    : "option-text"
+                                }
+                            >
+                                {displayText}
+                            </IonText>
                         </div>
 
                         <div className="options-container">
@@ -777,6 +906,7 @@ const Play: React.FC<PlayProps> = ({
                                         : difficultyConfig === "intermediate"
                                         ? "20px"
                                         : "19px",
+                                    color: "var(--dark)"
                                 }}
                                 >
                                 {option.text}
@@ -798,7 +928,21 @@ const Play: React.FC<PlayProps> = ({
                         </div>
 
                         <div className="button">
-                            <IonButton shape="round" expand="full" onClick={openExitModal}>
+                            <IonButton
+                                shape="round"
+                                expand="full"
+                                onClick={handlePausar}
+                                disabled={
+                                    showCountdown ||
+                                    showFeedback ||
+                                    showSummary ||
+                                    showInstructions ||
+                                    pausado ||
+                                    activeButtonIndex !== null ||
+                                    !isComplete
+                                }
+                            >
+                                <IonIcon slot="start" icon={pauseCircleOutline} />
                                 Pausar
                             </IonButton>
                         </div>
