@@ -13,9 +13,9 @@ import {
 } from "@ionic/react";
 import "./Play.css";
 import { useEffect, useState } from "react";
-import exercisesBasic from "../data/exercises_basic.json";
-import exercisesIntermediate from "../data/exercises_intermediate.json";
-import exercisesAdvanced from "../data/exercises_advanced.json";
+import exercisesBasic from "../../public/data/exercises_basic.json";
+import exercisesIntermediate from "../../public/data/exercises_intermediate.json";
+import exercisesAdvanced from "../../public/data/exercises_advanced.json";
 import {
     alertCircleOutline,
     closeCircleOutline,

@@ -1,0 +1,11 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "CalculoMental",
+	"webDir": "dist",
+	"packageClassList": [
+		"AppPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"StatusBarPlugin"
+	]
+}

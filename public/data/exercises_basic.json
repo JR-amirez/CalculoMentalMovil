@@ -1,0 +1,434 @@
+[
+    {
+        "nivel": "básico",
+        "operation": "9, -, 4, +, 9, +, 3, +, 7",
+        "options": [
+            {
+                "text": "18",
+                "isCorrect": false
+            },
+            {
+                "text": "30",
+                "isCorrect": false
+            },
+            {
+                "text": "24",
+                "isCorrect": true
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "9, +, 2, +, 5, -, 6, -, 9",
+        "options": [
+            {
+                "text": "2",
+                "isCorrect": false
+            },
+            {
+                "text": "6",
+                "isCorrect": false
+            },
+            {
+                "text": "1",
+                "isCorrect": true
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "4, +, 3, -, 7, +, 6, +, 9",
+        "options": [
+            {
+                "text": "5",
+                "isCorrect": false
+            },
+            {
+                "text": "15",
+                "isCorrect": true
+            },
+            {
+                "text": "25",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "9, +, 8, -, 2, +, 2, -, 4",
+        "options": [
+            {
+                "text": "4",
+                "isCorrect": false
+            },
+            {
+                "text": "13",
+                "isCorrect": true
+            },
+            {
+                "text": "22",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "1, +, 8, +, 7, -, 2, +, 2",
+        "options": [
+            {
+                "text": "21",
+                "isCorrect": false
+            },
+            {
+                "text": "16",
+                "isCorrect": true
+            },
+            {
+                "text": "11",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "2, +, 6, +, 6, -, 2, -, 6",
+        "options": [
+            {
+                "text": "6",
+                "isCorrect": true
+            },
+            {
+                "text": "11",
+                "isCorrect": false
+            },
+            {
+                "text": "1",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "1, +, 4, +, 8, -, 3, -, 3",
+        "options": [
+            {
+                "text": "11",
+                "isCorrect": false
+            },
+            {
+                "text": "17",
+                "isCorrect": false
+            },
+            {
+                "text": "7",
+                "isCorrect": true
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "7, -, 7, +, 8, -, 7, +, 5",
+        "options": [
+            {
+                "text": "13",
+                "isCorrect": false
+            },
+            {
+                "text": "6",
+                "isCorrect": true
+            },
+            {
+                "text": "14",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "1, +, 1, -, 2, +, 5, +, 6",
+        "options": [
+            {
+                "text": "4",
+                "isCorrect": false
+            },
+            {
+                "text": "18",
+                "isCorrect": false
+            },
+            {
+                "text": "11",
+                "isCorrect": true
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "2, +, 9, -, 1, -, 1, +, 9",
+        "options": [
+            {
+                "text": "28",
+                "isCorrect": false
+            },
+            {
+                "text": "18",
+                "isCorrect": true
+            },
+            {
+                "text": "8",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "5, -, 4, +, 4, -, 4, +, 3",
+        "options": [
+            {
+                "text": "4",
+                "isCorrect": true
+            },
+            {
+                "text": "5",
+                "isCorrect": false
+            },
+            {
+                "text": "3",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "2, +, 9, -, 9, +, 3, -, 2",
+        "options": [
+            {
+                "text": "3",
+                "isCorrect": true
+            },
+            {
+                "text": "9",
+                "isCorrect": false
+            },
+            {
+                "text": "13",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "4, +, 6, +, 8, -, 3, +, 8",
+        "options": [
+            {
+                "text": "22",
+                "isCorrect": false
+            },
+            {
+                "text": "23",
+                "isCorrect": true
+            },
+            {
+                "text": "24",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "5, +, 3, +, 9, +, 6, +, 8",
+        "options": [
+            {
+                "text": "24",
+                "isCorrect": false
+            },
+            {
+                "text": "31",
+                "isCorrect": true
+            },
+            {
+                "text": "38",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "5, +, 9, -, 1, +, 7, -, 3",
+        "options": [
+            {
+                "text": "17",
+                "isCorrect": true
+            },
+            {
+                "text": "18",
+                "isCorrect": false
+            },
+            {
+                "text": "16",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "4, +, 7, -, 9, +, 5, -, 6",
+        "options": [
+            {
+                "text": "5",
+                "isCorrect": false
+            },
+            {
+                "text": "1",
+                "isCorrect": true
+            },
+            {
+                "text": "3",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "8, -, 5, +, 7, -, 1, -, 1",
+        "options": [
+            {
+                "text": "14",
+                "isCorrect": false
+            },
+            {
+                "text": "18",
+                "isCorrect": false
+            },
+            {
+                "text": "8",
+                "isCorrect": true
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "6, -, 3, +, 3, -, 4, +, 3",
+        "options": [
+            {
+                "text": "10",
+                "isCorrect": false
+            },
+            {
+                "text": "5",
+                "isCorrect": true
+            },
+            {
+                "text": "11",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "4, +, 5, -, 4, +, 2, +, 3",
+        "options": [
+            {
+                "text": "4",
+                "isCorrect": false
+            },
+            {
+                "text": "16",
+                "isCorrect": false
+            },
+            {
+                "text": "10",
+                "isCorrect": true
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "5, +, 5, -, 2, +, 1, -, 6",
+        "options": [
+            {
+                "text": "3",
+                "isCorrect": true
+            },
+            {
+                "text": "5",
+                "isCorrect": false
+            },
+            {
+                "text": "1",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "2, +, 7, +, 6, +, 8, +, 1",
+        "options": [
+            {
+                "text": "24",
+                "isCorrect": true
+            },
+            {
+                "text": "33",
+                "isCorrect": false
+            },
+            {
+                "text": "15",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "9, +, 5, -, 7, -, 3, +, 5",
+        "options": [
+            {
+                "text": "12",
+                "isCorrect": false
+            },
+            {
+                "text": "9",
+                "isCorrect": true
+            },
+            {
+                "text": "6",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "3, -, 2, +, 8, +, 2, -, 5",
+        "options": [
+            {
+                "text": "6",
+                "isCorrect": true
+            },
+            {
+                "text": "14",
+                "isCorrect": false
+            },
+            {
+                "text": "16",
+                "isCorrect": false
+            }
+        ]
+    },
+    {
+        "nivel": "básico",
+        "operation": "3, +, 9, +, 7, +, 3, +, 6",
+        "options": [
+            {
+                "text": "19",
+                "isCorrect": false
+            },
+            {
+                "text": "37",
+                "isCorrect": false
+            },
+            {
+                "text": "28",
+                "isCorrect": true
+            }
+        ]
+    }
+]

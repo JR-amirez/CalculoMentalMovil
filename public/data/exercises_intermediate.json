@@ -1,0 +1,434 @@
+[
+  {
+    "nivel": "intermedio",
+    "operation": "60, +, 57, -, 57, +, 99, ×, 12, ×, 13, +, 83, -, 33, -, 38, +, 59",
+    "options": [
+      {
+        "text": "24877",
+        "isCorrect": false
+      },
+      {
+        "text": "24875",
+        "isCorrect": true
+      },
+      {
+        "text": "24876",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "84, -, 54, ×, 11, ×, 20, -, 14, -, 33, +, 15, ×, 13, -, 41, +, 36",
+    "options": [
+      {
+        "text": "85381",
+        "isCorrect": false
+      },
+      {
+        "text": "85379",
+        "isCorrect": true
+      },
+      {
+        "text": "85380",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "89, ×, 13, ×, 15, +, 47, +, 45, -, 77, +, 74, +, 18, -, 30, +, 83",
+    "options": [
+      {
+        "text": "17517",
+        "isCorrect": false
+      },
+      {
+        "text": "17515",
+        "isCorrect": true
+      },
+      {
+        "text": "17516",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "43, +, 12, +, 22, +, 70, ×, 10, -, 60, -, 63, ×, 15, +, 79, -, 27",
+    "options": [
+      {
+        "text": "20259",
+        "isCorrect": false
+      },
+      {
+        "text": "20257",
+        "isCorrect": true
+      },
+      {
+        "text": "20258",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "86, ×, 14, -, 55, -, 20, +, 96, -, 51, ×, 20, +, 23, +, 14, +, 30",
+    "options": [
+      {
+        "text": "23549",
+        "isCorrect": false
+      },
+      {
+        "text": "23547",
+        "isCorrect": true
+      },
+      {
+        "text": "23548",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "60, +, 29, ×, 25, ×, 20, ×, 10, +, 72, -, 17, +, 83, -, 49, +, 53",
+    "options": [
+      {
+        "text": "445144",
+        "isCorrect": false
+      },
+      {
+        "text": "445142",
+        "isCorrect": true
+      },
+      {
+        "text": "445143",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "15, +, 14, ×, 14, +, 70, ×, 14, +, 86, +, 71, +, 66, -, 83, +, 83",
+    "options": [
+      {
+        "text": "6889",
+        "isCorrect": false
+      },
+      {
+        "text": "6887",
+        "isCorrect": true
+      },
+      {
+        "text": "6888",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "69, ×, 11, -, 31, ×, 14, -, 70, +, 87, +, 57, +, 55, +, 57, -, 98",
+    "options": [
+      {
+        "text": "10282",
+        "isCorrect": false
+      },
+      {
+        "text": "10280",
+        "isCorrect": true
+      },
+      {
+        "text": "10281",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "13, -, 20, +, 43, +, 43, ×, 12, ×, 25, +, 10, -, 66, +, 74, +, 56",
+    "options": [
+      {
+        "text": "23776",
+        "isCorrect": false
+      },
+      {
+        "text": "23774",
+        "isCorrect": true
+      },
+      {
+        "text": "23775",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "36, +, 69, -, 53, +, 96, -, 77, ×, 20, -, 82, -, 44, ×, 11, +, 45",
+    "options": [
+      {
+        "text": "14281",
+        "isCorrect": false
+      },
+      {
+        "text": "14279",
+        "isCorrect": true
+      },
+      {
+        "text": "14280",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "64, -, 17, +, 63, ×, 13, +, 68, +, 20, -, 54, ×, 20, +, 90, -, 68",
+    "options": [
+      {
+        "text": "29304",
+        "isCorrect": false
+      },
+      {
+        "text": "29302",
+        "isCorrect": true
+      },
+      {
+        "text": "29303",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "92, ×, 14, +, 38, ×, 25, -, 94, -, 88, +, 88, -, 26, -, 45, +, 40",
+    "options": [
+      {
+        "text": "33027",
+        "isCorrect": false
+      },
+      {
+        "text": "33025",
+        "isCorrect": true
+      },
+      {
+        "text": "33026",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "81, -, 17, +, 61, +, 33, -, 58, +, 51, +, 18, ×, 25, ×, 14, +, 37",
+    "options": [
+      {
+        "text": "59189",
+        "isCorrect": false
+      },
+      {
+        "text": "59187",
+        "isCorrect": true
+      },
+      {
+        "text": "59188",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "87, ×, 10, ×, 15, +, 87, -, 73, -, 82, +, 93, +, 49, -, 31, -, 28",
+    "options": [
+      {
+        "text": "13067",
+        "isCorrect": false
+      },
+      {
+        "text": "13065",
+        "isCorrect": true
+      },
+      {
+        "text": "13066",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "53, ×, 10, ×, 15, +, 50, +, 90, -, 49, +, 67, +, 29, +, 20, -, 12",
+    "options": [
+      {
+        "text": "8147",
+        "isCorrect": false
+      },
+      {
+        "text": "8145",
+        "isCorrect": true
+      },
+      {
+        "text": "8146",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "62, -, 18, -, 70, +, 75, ×, 25, ×, 25, +, 62, +, 97, +, 91, ×, 20",
+    "options": [
+      {
+        "text": "617502",
+        "isCorrect": false
+      },
+      {
+        "text": "617500",
+        "isCorrect": true
+      },
+      {
+        "text": "617501",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "76, ×, 20, ×, 14, -, 64, +, 15, +, 14, -, 29, +, 96, +, 38, +, 92",
+    "options": [
+      {
+        "text": "21444",
+        "isCorrect": false
+      },
+      {
+        "text": "21442",
+        "isCorrect": true
+      },
+      {
+        "text": "21443",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "94, ×, 14, -, 53, ×, 13, +, 45, +, 82, ×, 20, -, 95, -, 93, +, 91",
+    "options": [
+      {
+        "text": "330825",
+        "isCorrect": false
+      },
+      {
+        "text": "330823",
+        "isCorrect": true
+      },
+      {
+        "text": "330824",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "18, +, 27, ×, 14, ×, 11, -, 98, +, 87, +, 54, +, 78, -, 86, ×, 13",
+    "options": [
+      {
+        "text": "90547",
+        "isCorrect": false
+      },
+      {
+        "text": "90545",
+        "isCorrect": true
+      },
+      {
+        "text": "90546",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "96, ×, 13, +, 61, ×, 15, +, 58, ×, 15, -, 32, +, 18, -, 68, -, 59",
+    "options": [
+      {
+        "text": "295256",
+        "isCorrect": false
+      },
+      {
+        "text": "295254",
+        "isCorrect": true
+      },
+      {
+        "text": "295255",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "77, -, 96, +, 36, +, 59, -, 88, +, 78, +, 23, -, 68, ×, 20, -, 99",
+    "options": [
+      {
+        "text": "323",
+        "isCorrect": false
+      },
+      {
+        "text": "321",
+        "isCorrect": true
+      },
+      {
+        "text": "322",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "52, +, 80, ×, 13, +, 66, ×, 14, +, 58, +, 41, -, 23, -, 49, ×, 14",
+    "options": [
+      {
+        "text": "349652",
+        "isCorrect": false
+      },
+      {
+        "text": "349650",
+        "isCorrect": true
+      },
+      {
+        "text": "349651",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "46, -, 37, +, 83, ×, 13, -, 78, -, 12, ×, 25, +, 16, ×, 12, +, 56",
+    "options": [
+      {
+        "text": "332050",
+        "isCorrect": false
+      },
+      {
+        "text": "332048",
+        "isCorrect": true
+      },
+      {
+        "text": "332049",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "nivel": "intermedio",
+    "operation": "12, +, 92, ×, 15, -, 11, -, 12, +, 76, -, 86, -, 68, -, 92, -, 37",
+    "options": [
+      {
+        "text": "1332",
+        "isCorrect": false
+      },
+      {
+        "text": "1330",
+        "isCorrect": true
+      },
+      {
+        "text": "1331",
+        "isCorrect": false
+      }
+    ]
+  }
+]
